@@ -18,7 +18,7 @@ public class ArbolBinario implements Interfaces.I_ArbolBinario{
     @Override
     public boolean estaVacio() {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'estaVacio'");
+        return this.raiz == null;
     }
 
     @Override
@@ -34,13 +34,13 @@ public class ArbolBinario implements Interfaces.I_ArbolBinario{
     @Override
     public ArbolBinario hijoIzquierdo() {
         // TODO Auto-generated method stub
-        return this.hijoIzquierdo();
+        return this.raiz.hijoIzq;
     }
 
     @Override
     public ArbolBinario hijoDerecho() {
         // TODO Auto-generated method stub
-        return this.hijoDerecho();
+        return this.raiz.hijoDer;
     }
 
     @Override
@@ -49,11 +49,26 @@ public class ArbolBinario implements Interfaces.I_ArbolBinario{
         if (this.raiz == null) {
             this.raiz = new NodoABB();
             this.raiz.contenido = x;
-            this.raiz.hijoIzq = new ArbolBinario();
-            this.raiz.hijoIzq.inicializarArbol();
-            this.raiz.hijoDer = new ArbolBinario();
-            this.raiz.hijoDer.inicializarArbol();
+        }else{
+            if (x < this.raiz.contenido) {
+                this.raiz.hijoIzq = agregar(this.raiz.hijoIzq,x);
+            }else if (x > this.raiz.contenido) {
+                this.raiz.hijoDer = agregar(this.raiz.hijoDer,x);
+            }
         }
+    }
+    
+    private NodoABB agregar(NodoABB nodo, int x) {
+        if (nodo == null) {
+            NodoABB nuevoNodo = new NodoABB();
+            nuevoNodo.contenido = x;
+            return nuevoNodo;
+        } else if (x < nodo.contenido) {
+            nodo.hijoIzq = agregar(nodo.hijoIzq, x);
+        } else if (x > nodo.contenido) {
+            nodo.hijoDer = agregar(nodo.hijoDer, x);
+        }
+        return nodo;
     }
 
     @Override
