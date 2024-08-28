@@ -71,7 +71,7 @@ public class ArbolBinario implements Interfaces.I_ArbolBinario{
         return nodo;
     }
 
-    @Override
+   /*@Override
     public void eliminar(int x) {
         // TODO Auto-generated method stub
         if(this.raiz != null){ // verificar que no este vacio
@@ -89,13 +89,37 @@ public class ArbolBinario implements Interfaces.I_ArbolBinario{
                 raiz.hijoIzq.eliminar(x); // buscamos por la izquierda
             }
         }
+    }*/
+
+    @Override
+    public void eliminar(int x){
+        this.raiz = eliminar(this.raiz,x);
     }
 
-    public int Suma(ArbolBinario arbol){
-        if(this.estaVacio()){
+    private NodoABB eliminar(NodoABB nodo, int x) {
+        if (nodo == null) return null;
+
+        if (x < nodo.contenido) {
+            nodo.hijoIzq = eliminar(nodo.hijoIzq, x);
+        } else if (x > nodo.contenido) {
+            nodo.hijoDer = eliminar(nodo.hijoDer, x);
+        } else {
+            // Caso 1: Nodo con un solo hijo o sin hijos
+            if (nodo.hijoIzq == null) return nodo.hijoDer;
+            if (nodo.hijoDer == null) return nodo.hijoIzq;
+
+            // Caso 2: Nodo con dos hijos
+            nodo.contenido = menor(nodo.hijoDer);
+            nodo.hijoDer = eliminar(nodo.hijoDer, nodo.contenido);
+        }
+        return nodo;
+    }
+
+    public int Suma(ArbolBinario arbol) {
+        if (arbol.estaVacio()) {
             return 0;
-        }else{
-            return this.raiz.contenido + Suma(this.hijoIzquierdo()) + Suma(this.hijoDerecho());
+        } else {
+            return arbol.raiz() + Suma(arbol.hijoIzquierdo()) + Suma(arbol.hijoDerecho());
         }
     }
 
