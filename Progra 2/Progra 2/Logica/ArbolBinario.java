@@ -43,7 +43,7 @@ public class ArbolBinario implements Interfaces.I_ArbolBinario{
         return this.raiz.hijoDer;
     }
 
-    @Override
+    /*@Override
     public void agregar(int x) {
         // TODO Auto-generated method stub
         if (this.raiz == null) {
@@ -69,7 +69,7 @@ public class ArbolBinario implements Interfaces.I_ArbolBinario{
             nodo.hijoDer = agregar(nodo.hijoDer, x);
         }
         return nodo;
-    }
+    }*/
 
    /*@Override
     public void eliminar(int x) {
@@ -91,7 +91,7 @@ public class ArbolBinario implements Interfaces.I_ArbolBinario{
         }
     }*/
 
-    @Override
+   /*  @Override
     public void eliminar(int x){
         this.raiz = eliminar(this.raiz,x);
     }
@@ -113,7 +113,7 @@ public class ArbolBinario implements Interfaces.I_ArbolBinario{
             nodo.hijoDer = eliminar(nodo.hijoDer, nodo.contenido);
         }
         return nodo;
-    }
+    }*/
 
     public int Suma(ArbolBinario arbol) {
         if (arbol.estaVacio()) {
@@ -164,6 +164,18 @@ public class ArbolBinario implements Interfaces.I_ArbolBinario{
             postOrder(arbol.hijoDerecho());
             System.out.println(arbol.raiz());
         }
+    }
+
+    @Override
+    public void agregar(int x) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'agregar'");
+    }
+
+    @Override
+    public void eliminar(int x) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'eliminar'");
     }
 
 }
