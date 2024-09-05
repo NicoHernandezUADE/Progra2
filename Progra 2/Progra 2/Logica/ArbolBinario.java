@@ -115,14 +115,6 @@ public class ArbolBinario implements Interfaces.I_ArbolBinario{
     }
 
     // Metodos privados
-    
-    private int mayor(ArbolBinario arbol){
-        if(arbol.hijoDerecho().estaVacio()){
-            return arbol.raiz();
-        }else{
-            return mayor(arbol.hijoDerecho());
-        }
-    }
 
     private NodoABB encontrarMinimo(NodoABB nodo) {
         while (nodo.hijoIzq.raiz != null) {
