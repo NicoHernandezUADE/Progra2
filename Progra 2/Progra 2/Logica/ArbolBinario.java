@@ -7,6 +7,12 @@ public class ArbolBinario implements Interfaces.I_ArbolBinario{
         int contenido;
         ArbolBinario hijoIzq;
         ArbolBinario hijoDer;
+
+        NodoABB(int contenido){
+            this.contenido = contenido;
+            this.hijoIzq = new ArbolBinario();
+            this.hijoDer = new ArbolBinario();
+        }
     }
 
     NodoABB raiz;
@@ -43,77 +49,62 @@ public class ArbolBinario implements Interfaces.I_ArbolBinario{
         return this.raiz.hijoDer;
     }
 
-    /*@Override
-    public void agregar(int x) {
-        // TODO Auto-generated method stub
-        if (this.raiz == null) {
-            this.raiz = new NodoABB();
-            this.raiz.contenido = x;
-        }else{
-            if (x < this.raiz.contenido) {
-                this.raiz.hijoIzq = agregar(this.raiz.hijoIzq,x);
-            }else if (x > this.raiz.contenido) {
-                this.raiz.hijoDer = agregar(this.raiz.hijoDer,x);
-            }
-        }
-    }
-    
-    private NodoABB agregar(NodoABB nodo, int x) {
-        if (nodo == null) {
-            NodoABB nuevoNodo = new NodoABB();
-            nuevoNodo.contenido = x;
-            return nuevoNodo;
-        } else if (x < nodo.contenido) {
-            nodo.hijoIzq = agregar(nodo.hijoIzq, x);
-        } else if (x > nodo.contenido) {
-            nodo.hijoDer = agregar(nodo.hijoDer, x);
-        }
-        return nodo;
-    }*/
-
-   /*@Override
-    public void eliminar(int x) {
-        // TODO Auto-generated method stub
-        if(this.raiz != null){ // verificar que no este vacio
-            if(this.raiz.contenido == x && this.raiz.hijoIzq.estaVacio() && this.raiz.hijoDer.estaVacio()){
-                this.raiz = null;
-            }else if (this.raiz.contenido == x && !this.raiz.hijoIzq.estaVacio()) { // si podemos reemplazamos con el mayor de la izq
-                this.raiz.contenido = this.mayor(this.raiz.hijoIzq);
-                this.raiz.hijoIzq.eliminar(raiz.contenido);
-            }else if(raiz.contenido == x && raiz.hijoIzq.estaVacio()){ // entonces buscamos por la derecha
-                raiz.contenido = this.menor(raiz.hijoDer);
-                raiz.hijoDer.eliminar(raiz.contenido);
-            }else if (raiz.contenido < x) {
-                raiz.hijoDer.eliminar(x); // buscamos por la derecha
-            }else{
-                raiz.hijoIzq.eliminar(x); // buscamos por la izquierda
-            }
-        }
-    }*/
-
-   /*  @Override
-    public void eliminar(int x){
-        this.raiz = eliminar(this.raiz,x);
-    }
-
-    private NodoABB eliminar(NodoABB nodo, int x) {
-        if (nodo == null) return null;
-
-        if (x < nodo.contenido) {
-            nodo.hijoIzq = eliminar(nodo.hijoIzq, x);
-        } else if (x > nodo.contenido) {
-            nodo.hijoDer = eliminar(nodo.hijoDer, x);
+    @Override
+    public void agregar(int valor) {
+        if (this.estaVacio()) {
+            this.raiz = new NodoABB(valor);
         } else {
-            // Caso 1: Nodo con un solo hijo o sin hijos
-            if (nodo.hijoIzq == null) return nodo.hijoDer;
-            if (nodo.hijoDer == null) return nodo.hijoIzq;
+            agregarRecursivo(this.raiz, valor);
+        }
+    }
 
-            // Caso 2: Nodo con dos hijos
-            nodo.contenido = menor(nodo.hijoDer);
-            nodo.hijoDer = eliminar(nodo.hijoDer, nodo.contenido);
+    private void agregarRecursivo(NodoABB nodo, int valor) {
+        if (valor < nodo.contenido) {
+            if (nodo.hijoIzq.estaVacio()) {
+                nodo.hijoIzq.raiz = new NodoABB(valor);
+            } else {
+                agregarRecursivo(nodo.hijoIzq.raiz, valor);
+            }
+        } else if (valor > nodo.contenido) {
+            if (nodo.hijoDer.estaVacio()) {
+                nodo.hijoDer.raiz = new NodoABB(valor);
+            } else {
+                agregarRecursivo(nodo.hijoDer.raiz, valor);
+            }
+        }
+    }
+
+
+    public void eliminar(int valor) {
+        this.raiz = eliminarRecursivo(this.raiz, valor);
+    }
+
+    private NodoABB eliminarRecursivo(NodoABB nodo, int valor) {
+        if (nodo == null) {
+            return null;
+        }
+
+        if (valor < nodo.contenido) {
+            nodo.hijoIzq.raiz = eliminarRecursivo(nodo.hijoIzq.raiz, valor);
+        } else if (valor > nodo.contenido) {
+            nodo.hijoDer.raiz = eliminarRecursivo(nodo.hijoDer.raiz, valor);
+        } else {
+            // Caso 1: Nodo hoja
+            if (nodo.hijoIzq.estaVacio() && nodo.hijoDer.estaVacio()) {
+                return null;
+            }
+            // Caso 2: Nodo con un solo hijo
+            if (nodo.hijoIzq.estaVacio()) {
+                return nodo.hijoDer.raiz;
+            } else if (nodo.hijoDer.estaVacio()) {
+                return nodo.hijoIzq.raiz;
+            }
+            // Caso 3: Nodo con dos hijos
+            nodo.contenido = encontrarMinimo(nodo.hijoDer.raiz).contenido;
+            nodo.hijoDer.raiz = eliminarRecursivo(nodo.hijoDer.raiz, nodo.contenido);
         }
         return nodo;
-    }*/
+    }
 
     public int Suma(ArbolBinario arbol) {
         if (arbol.estaVacio()) {
@@ -133,14 +124,34 @@ public class ArbolBinario implements Interfaces.I_ArbolBinario{
         }
     }
 
-    private int menor(ArbolBinario arbol){
-        if(arbol.hijoIzquierdo().estaVacio()){
-            return arbol.raiz();
-        }else{
-            return menor(arbol.hijoIzquierdo());
+    private NodoABB encontrarMinimo(NodoABB nodo) {
+        while (nodo.hijoIzq.raiz != null) {
+            nodo = nodo.hijoIzq.raiz;
         }
+        return nodo;
     }
 
+    public ListaEnlazada almacenarHojas() {
+        ListaEnlazada listaHojas = new ListaEnlazada();
+        if (!this.estaVacio()) {
+            almacenarHojasRecursivo(this.raiz, listaHojas);
+        } else {
+            System.out.println("El arbol esta vacio");
+        }
+        return listaHojas;
+    }
+    
+    private void almacenarHojasRecursivo(NodoABB nodo, ListaEnlazada lista) {
+        if (nodo == null) {
+            return;
+        }
+        if (nodo.hijoIzq.estaVacio() && nodo.hijoDer.estaVacio()) {
+            lista.Agregar(nodo.contenido); // Asumiendo que ListaEnlazada tiene un método agregar
+        } else {
+            almacenarHojasRecursivo(nodo.hijoIzq.raiz, lista);
+            almacenarHojasRecursivo(nodo.hijoDer.raiz, lista);
+        }
+    }
     // Recorridos
     public void preOrder(ArbolBinario arbol){
         if(!arbol.estaVacio()){
@@ -164,18 +175,6 @@ public class ArbolBinario implements Interfaces.I_ArbolBinario{
             postOrder(arbol.hijoDerecho());
             System.out.println(arbol.raiz());
         }
-    }
-
-    @Override
-    public void agregar(int x) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'agregar'");
-    }
-
-    @Override
-    public void eliminar(int x) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'eliminar'");
     }
 
 }
