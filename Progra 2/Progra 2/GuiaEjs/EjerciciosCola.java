@@ -98,6 +98,54 @@ public class EjerciciosCola {
         }
         return true;
     }
+    //ej 2.1
+    public static void EliminarDuplicados(ListaEnlazada c1){
+        Nodo movil = c1.primero;
+        ListaEnlazada aux = new ListaEnlazada();
+        while(movil != null){
+            if (!aux.pertenece(movil.contenido)){
+                aux.Agregar(movil.contenido);
+            }
+            movil = movil.siguiente;
+        }
+        c1.vaciar();
+        PasarColaAOtra(aux, c1);
+        return;
+    }
+
+    //ej 2.2
+    public static ListaEnlazada[] RepartirCola(ListaEnlazada c1){
+        ListaEnlazada c2 = new ListaEnlazada();
+        ListaEnlazada c3 = new ListaEnlazada();
+        boolean turno = true;
+        Nodo movil = c1.primero;
+        while (movil != null) {
+            if (turno) {
+                c2.Agregar(movil.contenido);
+            } else {
+                c3.Agregar(movil.contenido);
+            }
+            turno = !turno;
+            movil = movil.siguiente;
+        }
+        return new ListaEnlazada[] {c2, c3};
+    }
+
+    // ej 2.3
+    public static Conjunto ConjuntoDeRepetidos(ListaEnlazada l1){
+        Conjunto res = new Conjunto();
+        ListaEnlazada aux = new ListaEnlazada();
+        Nodo movil = l1.primero;
+        while(movil != null){
+            if (!aux.pertenece(movil.contenido)){
+                aux.Agregar(movil.contenido);
+            }else{
+                res.agregar(movil.contenido);
+            }
+            movil = movil.siguiente;
+        }
+        return res;
+    }
     public static void main(String[] args) {
         //test ej 4)a
         ListaEnlazada c1 = new ListaEnlazada();
@@ -133,6 +181,34 @@ public class EjerciciosCola {
         System.out.println("Cola 1: " + c1.toString());
         System.out.println("Cola 2: " + c2.toString());
         System.out.println("Son inversas: " + SonInversas(c1, c2));// deberia dar true
+
+        //test ej 2.1
+        ListaEnlazada c10 = new ListaEnlazada();
+        c10.Agregar(10);
+        c10.Agregar(20);
+        c10.Agregar(10);
+        c10.Agregar(30);
+        c10.Agregar(20);
+        c10.Agregar(40);
+        System.out.println("Cola 10 con duplicados: " + c10.toString());
+        EliminarDuplicados(c10);
+        System.out.println("Cola 10 sin duplicados: " + c10.toString());
+
+        //test ej 2.2
+        ListaEnlazada[] resultado = RepartirCola(c10);
+        for(ListaEnlazada i : resultado){
+            System.out.println(i);
+        }
+
+        // test ej 2.3
+        ListaEnlazada c11 = new ListaEnlazada();
+        c11.Agregar(10);
+        c11.Agregar(20);
+        c11.Agregar(10);
+        c11.Agregar(30);
+        c11.Agregar(20);
+        Conjunto resConjunto = ConjuntoDeRepetidos(c11);
+        System.out.println("Conjunto de repetidos: " + resConjunto.toString());
     }
 
 }

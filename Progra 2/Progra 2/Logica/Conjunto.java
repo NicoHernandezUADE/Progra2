@@ -3,7 +3,7 @@ import java.util.Random;
 public class Conjunto implements Interfaces.I_Conjunto {
 
     Nodo primero;
-    int largo;
+    public int largo;
 
     public Conjunto(){
         this.inicialzarConjunto();

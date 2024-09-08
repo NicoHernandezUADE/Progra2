@@ -91,16 +91,6 @@ public class Pila implements Interfaces.I_Pila{
 
     @Override
     public int Tope() {
-        // TODO Auto-generated method stub
-        /*if (this.PilaVacia()) {
-            System.out.println("La pila esta vacia");
-            return -1;
-        }
-        Nodo movil = this.primero;
-        while (movil.siguiente != null) {
-            movil = movil.siguiente;
-        }
-        return movil.contenido;*/
         return this.primero.contenido; 
     }
     
