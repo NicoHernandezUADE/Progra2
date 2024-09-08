@@ -85,7 +85,7 @@ public class ListaEnlazada implements Interfaces.I_ListaEnlazada{
 
 
     @Override
-    /*public void eliminar(int x) {
+    public void eliminar(int x) {
         // TODO Auto-generated method stub
         if(!this.estaVacia()){
             if (this.pertenece(x)) {
@@ -107,34 +107,8 @@ public class ListaEnlazada implements Interfaces.I_ListaEnlazada{
             System.out.println("La lista esta vacia");
         }
 
-    }*/
-    // eliminar version chat, es mas legible y mas facil de entender
-
-    public void eliminar(int x){
-        if(this.estaVacia()){
-            System.out.println("La lista está vacía");
-            return;
-        }
-
-        // considera el caso de que sea el primero
-        if(this.primero.contenido == x){
-            this.primero = this.primero.siguiente;
-            this.largo--;
-            return;
-        }
-
-        Nodo movil = this.primero;
-        while ((movil.siguiente != null)) {
-            if (movil.siguiente.contenido == x) {
-                movil.siguiente = movil.siguiente.siguiente;
-                this.largo--;
-                return;
-            }
-            movil = movil.siguiente;            
-        }
-
-        System.out.println("El elemento no pertenece a la lista"); //esto seria si no lo encuentra
     }
+
 
     public void EliminarTodasLasOcurrencias(int val){
         if(this.estaVacia()){
@@ -201,5 +175,11 @@ public class ListaEnlazada implements Interfaces.I_ListaEnlazada{
     
         largo++;
     }
-    
+
+    public void AgregarAlInicio(int contenido) {
+        Nodo nuevoNodo = new Nodo();
+        nuevoNodo.contenido = contenido;
+        nuevoNodo.siguiente = primero;
+        primero = nuevoNodo;
+    }
 }

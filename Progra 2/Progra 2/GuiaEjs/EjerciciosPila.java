@@ -82,7 +82,7 @@ public class EjerciciosPila {
         //prueba ejercicio b
         pila1.Apilar(1);
         pila1.Apilar(2);
-        pila1.Apilar(5);
+        pila1.Apilar(3);
         Pila pila3 = new Pila();
         pila3 = PasarPilaEnOrden(pila1,pila3);
         System.out.println("Pila 3: " + pila3.toString());
